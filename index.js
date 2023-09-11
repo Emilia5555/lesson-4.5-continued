@@ -1,7 +1,6 @@
-const {connectToDB, testConnection} = require("./models/conn")
-const Continent = require("./models/continentsModel")
-const Country = require("./models/countriesModel") 
-
+const { connectToDB, testConnection } = require("./models/conn");
+const Continent = require("./models/continentsModel");
+const Country = require("./models/countriesModel");
 
 /* 
 
@@ -10,65 +9,81 @@ Homework:
 
 Create three functions: editCountry, deleteCountry, and viewCountryDatabase, which interact with the Country model.
 
-*/ 
+*/
+//deleteCountry(3);
+//editCountry(4);
+viewCountryDatabase();
 
+async function addContinent() {
+  let newContinent = {
+    name: "Africa",
+  };
 
-async function addContinent(){
-
-    let newContinent = {
-        name: "Africa"
-    }
-
-    await Continent.create(newContinent)
-
+  await Continent.create(newContinent);
 }
 
+async function addCountry() {
+  // {id:1, country_name: USA, capital_city: Washington DC, population: 330 mil, continents_id: reference Continents Model/Table -> 5}
 
-async function addCountry(){
+  let newCountry = {
+    country_name: "South Africa",
+    capital_city: "Pretoria",
+    population: 52000000,
+    continents_id: 1,
+  };
 
-    
-// {id:1, country_name: USA, capital_city: Washington DC, population: 330 mil, continents_id: reference Continents Model/Table -> 5}
-
-    let newCountry = {
-        country_name : "South Africa",
-        capital_city: "Pretoria",
-        population: 52000000,
-        continents_id:1
-    }
-
-    await Country.create(newCountry)
-
+  await Country.create(newCountry);
 }
 
+async function viewContinentDatabase() {
+  let result = await Continent.findAll();
 
-async function viewContinentDatabase(){
-
-    let result = await Continent.findAll()
-
-    console.log(JSON.stringify(result))
+  console.log(JSON.stringify(result));
 }
 
-async function deleteContinent(userID){
+async function deleteContinent(userID) {
+  let continentToDelete = {
+    id: userID,
+  };
 
-    let continentToDelete = {
-        id:userID
-    }
-
-    await Continent.destroy({where: continentToDelete})
-
+  await Continent.destroy({ where: continentToDelete });
 }
 
+async function editContinent(userID) {
+  let continentToEdit = {
+    id: userID,
+  };
 
-async function editContinent(userID){
+  let newContinent = {
+    name: "Atlantas",
+  };
 
-    let continentToEdit = {
-        id:userID
-    }
+  await Continent.update(newContinent, { where: continentToEdit });
+}
 
-    let newContinent = {
-        name: "Atlantas"
-    }
+async function editCountry(userID) {
+  let countryToEdit = {
+    id: userID,
+  };
 
-    await Continent.update(newContinent, {where: continentToEdit} )
+  let newCountry = {
+    country_name: "puerto rico",
+    capital_city: "San Juan",
+  };
 
+  await Country.update(newCountry, { where: countryToEdit });
+}
+
+async function deleteCountry(userID) {
+  let countryToDelete = {
+    id: userID,
+  };
+
+  await Country.destroy({ where: countryToDelete });
+}
+
+async function viewCountryDatabase() {
+  let result = await Country.findAll();
+
+  console.log(JSON.stringify(result));
 }
